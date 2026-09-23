@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Regular Expression Matching</title>
+
+<style>
+
+   body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f2f2f2;
+    padding: 40px;   
+
+}
+
+.box {
+    background: white;
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #aaa;
+
+}
+   h1 {
+    color: #222;
+   }
+
+   input {
+    width: 80%;
+    padding: 12px;
+    margin: 10px;
+    font-size: 16px;
+
+   }
+     button {
+        padding: 12px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+
+    }
+
+        #result {
+            margin-top: 25px;
+            font-size: 23px;
+            font-weight: bold;
+
+        }
+            .true {
+                color: green;
+            }
+             .false {
+                color: red;
+
+             }
+
+             .invalid {
+                color: orange;
+
+             }
+</style>
+</head>
+
+<body>
+    
+    <div class="box">
+        <h1>Regular Expression Matching</h1>
+        <p>Enter String P:</p>
+        <input type="text" id="p" 
+                   placeholder="Example:AAAB">
+                   
+          <p>Enter Pattern Q:</p>
+          <input type="text" id="q" 
+                 placeholder="Example: A+B">
+
+                 <br>
+
+            <button onclick="checkMatch()">Match</button>
+            <div id="result"></div>
+    </div>
+
+            <script>
+        function checkMatch() {
+            let P = document.getElementById("p").value;
+            let Q = document.getElementById("q").value;
+              
+            // Empty pattern is invalid 
+            if(Q.length ===0) { showResult("invlaid Pattern","invalid");
+                return;
+            }
+            // Pattern cannot start with + 
+            if (Q[0] ==="+") {
+                showResult("invalid Pattern","invalid");
+                return;
+            }
+              //Pattern cannot contain ++ 
+              if (Q.includes("++")) {
+                showResult("invalid Pattern","invalid");
+                return;
+              }
+              //Pattern must contain only A-Z and +
+              for (let i = 0; i < Q.length; i++) {
+                let ch = Q[i];
+                if (!(/[A-Z]/.test(ch))&& ch !=="+"){
+                    showResult("invalid Pattern","invalid");
+                    return;
+                }
+              }
+              try {
+                // Create regular expression 
+                let regex = new RegExp("^"+ Q + "$")
+                // Test complete string 
+                let result = regex.test(P);
+                if(result) {
+                    showResult("True","true");
+                } else {
+                    showResult("False","false");
+                }
+
+              } catch(error) {
+                showResult("invalid Pattern","invalid");
+              }      
+        }
+            function showResult(text,className){
+
+                document.getElementById("result") .innerHTML = "<span class="+ className + ">" + "Output:" + text + "</span>";    
+                    }
+
+
+
+            </script>
+            </body>
+            </html>
